@@ -38,8 +38,4 @@ Estoque {
     public Produto getProduto() {
         return produto;
     }
-
-    public Long getId() {
-        return id;
-    }
 }

@@ -1,40 +1,34 @@
 package service;
 
 import model.*;
-import repository.VendaRepository;
-
-import java.sql.SQLException;
 
 public class VendaService {
 
-    private VendaRepository vendaRepository;
-    private EstoqueService estoqueService;
-    private ItemVendaService itemVendaService;
-
-    public VendaService(VendaRepository vendaRepository, EstoqueService estoqueService) {
-        this.vendaRepository = vendaRepository;
-        this.estoqueService = estoqueService;
-        this.itemVendaService = new ItemVendaService();
-    }
+    private ItemVendaService itemVendaService = new ItemVendaService();
+    private EstoqueService estoqueService = new EstoqueService();
 
     public Venda registrarVenda(Cliente cliente, Usuario usuario) {
-        return new Venda(cliente, usuario);  // validações já estão no model
+        return new Venda(cliente, usuario);
     }
 
-    public void adicionarItemVenda(Venda venda, Estoque estoque, int quantidade) throws SQLException {
-        // 1. valida estoque (regra de negócio — permanece no service)
+    public void adicionarItemVenda(Venda venda,
+                                   Estoque estoque,
+                                   int quantidade) {
+
+        // 1. valida estoque
         estoqueService.validarDisponibilidade(estoque, quantidade);
 
-        // 2. reduz estoque no objeto E persiste no banco
+        // 2. reduz estoque
         estoqueService.reduzirQuantidade(estoque, quantidade);
 
-        // 3. cria item e adiciona na venda (em memória)
-        ItemVenda item = itemVendaService.criarItem(venda, estoque.getProduto(), quantidade);
-        venda.adicionarItem(item);
-    }
+        // 3. cria item
+        ItemVenda item = itemVendaService.criarItem(
+                venda,
+                estoque.getProduto(),
+                quantidade
+        );
 
-    public Venda finalizar(Venda venda) throws SQLException {
-        // persiste a venda e os itens no banco
-        return vendaRepository.salvar(venda);
+        // 4. adiciona na venda
+        venda.adicionarItem(item);
     }
 }

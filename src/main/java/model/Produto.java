@@ -33,8 +33,4 @@ public class Produto {
     public BigDecimal getPreco() {
         return preco;
     }
-
-    public String getDescricao() {
-        return descricao;
-    }
 }

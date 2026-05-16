@@ -31,6 +31,10 @@ public class Usuario {
         return login;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
     public boolean isAtivo() {
         return ativo;
     }

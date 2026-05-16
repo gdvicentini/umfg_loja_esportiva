@@ -54,4 +54,38 @@ public class UsuarioRepository {
             rs.getBoolean("ativo")
         );
     }
+
+    public void atualizar(Usuario usuario) throws SQLException {
+
+        String sql = """
+            UPDATE usuario
+            SET nome = ?, login = ?, senha = ?, ativo = ?
+            WHERE id = ?
+        """;
+
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getLogin());
+            stmt.setString(3, usuario.getSenha());
+            stmt.setBoolean(4, usuario.isAtivo());
+            stmt.setLong(5, usuario.getId());
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public void apagarPorId(Long id) throws SQLException {
+
+        String sql = "DELETE FROM usuario WHERE id = ?";
+
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, id);
+
+            stmt.executeUpdate();
+        }
+    }
 }

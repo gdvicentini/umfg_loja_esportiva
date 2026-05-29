@@ -53,4 +53,20 @@ public class Venda {
     public List<ItemVenda> getItens() {
         return itens;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
 }

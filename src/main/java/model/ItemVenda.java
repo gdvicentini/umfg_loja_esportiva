@@ -34,4 +34,8 @@ public class ItemVenda {
     public Integer getQuantidade() {
         return quantidade;
     }
+
+    public BigDecimal getPrecoUnitario() {
+        return precoUnitario;
+    }
 }

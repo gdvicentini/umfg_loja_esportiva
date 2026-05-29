@@ -30,6 +30,10 @@ public class Produto {
         return nome;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
     public BigDecimal getPreco() {
         return preco;
     }

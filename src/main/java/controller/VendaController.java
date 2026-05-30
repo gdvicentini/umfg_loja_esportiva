@@ -6,6 +6,8 @@ import model.Usuario;
 import model.Venda;
 import service.VendaService;
 
+import java.sql.SQLException;
+
 public class VendaController {
 
     private VendaService vendaService;
@@ -18,11 +20,17 @@ public class VendaController {
                                Usuario usuario,
                                Estoque estoque,
                                int quantidade) {
+        try {
+            Venda venda = new Venda(cliente, usuario);
+            vendaService.adicionarItemVenda(venda, estoque, quantidade);
+            vendaService.finalizar(venda);
 
-        Venda venda = vendaService.registrarVenda(cliente, usuario);
+            System.out.println("Venda realizada com sucesso! Total: R$ " + venda.getValorTotal());
 
-        vendaService.adicionarItemVenda(venda, estoque, quantidade);
-
-        System.out.println("model.Venda realizada. Total: " + venda.getValorTotal());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro de validação: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Erro ao salvar venda: " + e.getMessage());
+        }
     }
 }
